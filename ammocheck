@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# Check various ammo sites for available 9mm ammo
+
+
+#
+# Initialize some variable
+#
+ToEmail='cdjackson14@gmail.com, dajack05@gmail.com'
+Header='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
+File='/home/jackchr1/common/ammo.txt'
+
+#
+# Initialize the email
+#
+echo TO: ${ToEmail} > ${File}
+echo SUBJECT: >> ${File}
+echo >> ${File}
+echo A-M-M-O A-L-E-R-T >> ${File}
+echo `date` >> ${File}
+echo >> ${File}
+
+
+#
+# MidwayUSA.com
+#
+Name='MidwayUSA'
+Site='https://www.midwayusa.com/9mm-luger/br?cid=21659'
+Count=`curl -s -H "${Header}" "${Site}" | grep "Add to Cart" | wc -l `
+Count=$(( Count - 0 ))
+if [ ${Count} -gt 0 ]; then
+	echo ${Name} has ${Count} at ${Site} >> ${File}
+	echo  >> /home/jackchr1/common/ammo.txt
+fi
+Total=$(( Total + Count ))
+
+
+
+#
+# Brownells.com
+#
+Name='Brownells'
+Site='https://www.brownells.com/ammunition/handgun-ammo/index.htm?avs|Special-Filters_1=In%2bStock&avs|Cartridge_1=APP_9%2bmm%2bLuger'
+#Site='https://www.brownells.com/ammunition/handgun-ammo/index.htm?avs|Special-Filters_1=In%2bStock&avs|Cartridge_1=BBB_454%2bCasull'
+Header='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
+Count=`curl -s -H "${Header}" "${Site}" | grep '(In Stock' | wc -l`
+Count=$(( Count - 0 ))
+if [ ${Count} -gt 0 ]; then
+	echo ${Name} has ${Count} at ${Site} >> ${File}
+	echo  >> /home/jackchr1/common/ammo.txt
+fi
+Total=$(( Total + Count ))
+
+
+
+#
+# Alamo Ammo
+# https://alamoammo.com/
+#
+
+
+
+#
+# Wrap things up
+#
+
+# Replace the Subject line with the TOTAL COUNT
+sed -i 's/SUBJECT:/SUBJECT: Ammo Alert - '${Total}'/g' ${File}
+
+# If more than 0, then send out an email
+if [ ${Total} -gt 0 ]; then
+	/usr/sbin/ssmtp ${ToEmail} < ${File}
+fi
+
+
