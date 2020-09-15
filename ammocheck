@@ -6,7 +6,8 @@
 #
 # Initialize some variable
 #
-ToEmail='cdjackson14@gmail.com, dajack05@gmail.com'
+ToEmail='cdjackson14@gmail.com, dajack05@gmail.com, jonahmj2001@gmail.com'
+ToEmail='cdjackson14@gmail.com'
 Header='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
 File='/home/jackchr1/common/ammo.txt'
 
@@ -54,10 +55,21 @@ Total=$(( Total + Count ))
 
 
 #
-# Alamo Ammo
-# https://alamoammo.com/
+# Classic Firearms
+# https://www.classicfirearms.com/
 #
-
+Name='Classic Firearms'
+Site='https://www.classicfirearms.com/ammunition/9mm/?stock=1'
+# test
+# Site='https://www.classicfirearms.com/ammunition/centerfire-handgun-ammo/?stock=1'
+Header='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
+Count=`curl -s -H "${Header}" "${Site}" | grep 'In stock' | wc -l`
+Count=$(( Count - 0 ))
+if [ ${Count} -gt 0 ]; then
+	echo ${Name} has ${Count} at ${Site} >> ${File}
+	echo  >> /home/jackchr1/common/ammo.txt
+fi
+Total=$(( Total + Count ))
 
 
 #
@@ -71,5 +83,3 @@ sed -i 's/SUBJECT:/SUBJECT: Ammo Alert - '${Total}'/g' ${File}
 if [ ${Total} -gt 0 ]; then
 	/usr/sbin/ssmtp ${ToEmail} < ${File}
 fi
-
-
