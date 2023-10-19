@@ -11,7 +11,7 @@ This was originally created in 2020 when ammo became hard to find in stock.
 
 ----------
 
-### Bonus: How to Use sSMTP
+### Bonus: How to Use sSMTP on a Debian based system
 
 #### Installation
 
