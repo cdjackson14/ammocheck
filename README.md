@@ -11,15 +11,15 @@ This was originally created in 2020 when ammo became hard to find in stock.
 
 ----------
 
-## sSMTP
+### Bonus: How to Use sSMTP
 
-### Installation
+#### Installation
 
 ```bash
 sudo apt install ssmtp
 ```
 
-### Configuration
+#### Configuration
 
 1. Edit `/etc/ssmtp/ssmtp.conf`
 
@@ -44,7 +44,7 @@ sudo apt install ssmtp
     root:<gmail_address>:smtp.gmail.com:587
     ```
 
-### Optional Crontab Config
+#### Optional Crontab Config
 By default, the crontab will send email to the local username, sSMTP will mess this up, and try sending to an invalid email, and all crontab notification will be rejected.  Here's a simple solution.
 
 Add the MAILTO line at the top of the crontab
