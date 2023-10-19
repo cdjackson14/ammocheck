@@ -6,9 +6,9 @@
 #
 # Initialize some variable
 #
-ToEmail='cdjackson14@gmail.com, dajack05@gmail.com, jonahmj2001@gmail.com'
+ToEmail='email1@email, email2@email'
 Header='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36'
-File='/home/jackchr1/common/ammo.txt'
+File='~ammo.txt'
 
 #
 # Initialize the email
